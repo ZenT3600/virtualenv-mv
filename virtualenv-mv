@@ -3,10 +3,7 @@
 # Move (rename) Python virtualenvs
 
 
-create_backup(){
-    BACKUP_PATH=$(mktemp --dry-run -- "$SOURCE_PATH.XXXXXX")
-    cp --archive -- "$SOURCE_PATH" "$BACKUP_PATH"
-}
+create_backup(){}
 
 
 do_mv(){
@@ -82,20 +79,10 @@ is_virtualenv(){
 }
 
 
-remove_backup(){
-    if [[ -d $BACKUP_PATH ]]; then
-        rm -rf -- "$BACKUP_PATH"
-    fi
-}
+remove_backup(){}
 
 
-restore_backup(){
-    if [[ -d $BACKUP_PATH ]]; then
-        rm -rf -- "$DEST_PATH"
-        rm -rf -- "$SOURCE_PATH" &>/dev/null
-        mv -- "$BACKUP_PATH" "$SOURCE_PATH"
-    fi
-}
+restore_backup(){}
 
 
 usage(){
@@ -105,9 +92,6 @@ usage(){
     exit 0
 }
 
-
-# enable strict mode
-set -euo pipefail
 
 PROGRAM=${0##*/}
 
