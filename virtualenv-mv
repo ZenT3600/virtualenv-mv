@@ -3,16 +3,11 @@
 # Move (rename) Python virtualenvs
 
 
-create_backup(){}
-
-
 do_mv(){
     local BACKUP_PATH DEST_PATH SOURCE_PATH
 
     DEST_PATH=$(realpath -- "$2")
     SOURCE_PATH=$(realpath -- "$1")
-
-    create_backup
 
     # move directory
     DEST_PATH=$(mv --verbose -- "$SOURCE_PATH" "$DEST_PATH" | awk -F '[‘’'"'"']' '{print $(NF-1)}') || {
@@ -55,14 +50,11 @@ do_mv(){
     while read -rd $'\0' path; do
         ln --force --symbolic -- "${path/local\/}" "$path"
     done < <(find "$DEST_PATH/local" -type l -print0 2>/dev/null)
-
-    remove_backup
 }
 
 
 fatal(){
     echo "$PROGRAM: $1" >&2
-    restore_backup
     exit 1
 }
 
@@ -77,12 +69,6 @@ fatal_info(){
 is_virtualenv(){
     [[ -d $1 && -f $1/bin/activate ]]
 }
-
-
-remove_backup(){}
-
-
-restore_backup(){}
 
 
 usage(){
